@@ -5,9 +5,10 @@ class AppError extends Error {
 
     constructor(message: string, statusCode: number, errorRaw: any = null) {
         super(message);
-        this.statusCode = statusCode;
+        this.statusCode = statusCode || 500;
         this.status = false;
         this.errorRaw = errorRaw;
+        console.log(errorRaw, 'errorRaw');
         Error.captureStackTrace(this, this.constructor);
     }
 
@@ -19,7 +20,7 @@ class AppError extends Error {
         return {
             status: this.status,
             message: this.message,
-            errorRaw: this.errorRaw
+            errorRaw: this.errorRaw?.stack || {}
         };
     }
 }

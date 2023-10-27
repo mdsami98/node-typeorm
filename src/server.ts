@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Express, Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -6,7 +6,7 @@ import routes from './routes';
 import config from '@config/config';
 import AppError from '@utils/AppError';
 
-const app = express();
+const app: Express = express();
 
 app.use(cors());
 app.use(helmet());
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //Error middleware
-import { errorHandler } from '@middleware/errorHandler';
+import { errorConverter, errorHandler } from '@middleware/errorHandler';
 
 app.get('/', (req: Request, res: Response): Response => {
     return res.send('Hello, World!');
@@ -22,15 +22,15 @@ app.get('/', (req: Request, res: Response): Response => {
 
 app.use('/', routes);
 
-// app.use(errorHandler);
-
-// For Not found Url
-app.all('*', (req, res, next) => {
+// send back a 404 error for any unknown api request
+app.all('*', (req: Request, res: Response, next: NextFunction) => {
     next(new AppError('Not Found', 404));
 });
 
 // Global Error
-
+// convert error to ApiError, if needed
+app.use(errorConverter);
+// handle error
 app.use(errorHandler);
 
 const start = async (): Promise<void> => {

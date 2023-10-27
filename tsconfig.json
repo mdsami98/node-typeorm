@@ -21,7 +21,9 @@
         "paths": {
             "@middleware/*": ["src/middleware/*"],
             "@utils/*": ["src/utils/*"],
-            "@config/*": ["src/config/*"]
+            "@config/*": ["src/config/*"],
+            "@controllers/*": ["src/controllers/*"],
+            "@services/*": ["src/services/implementations/*"]
         }
     },
     "include": ["src/**/*"],
