@@ -4,6 +4,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import routes from './routes';
 import config from '@config/config';
+import AppError from '@utils/AppError';
 
 const app = express();
 
@@ -20,6 +21,15 @@ app.get('/', (req: Request, res: Response): Response => {
 });
 
 app.use('/', routes);
+
+// app.use(errorHandler);
+
+// For Not found Url
+app.all('*', (req, res, next) => {
+    next(new AppError('Not Found', 404));
+});
+
+// Global Error
 
 app.use(errorHandler);
 
