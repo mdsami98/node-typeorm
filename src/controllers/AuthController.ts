@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import AuthService from '@services/AuthService';
-import catchAsync from '@utils/helper';
+import { catchAsync } from '@utils/helper';
 
 class AuthController {
     private authService: AuthService;
