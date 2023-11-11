@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import express, { Express, Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -5,7 +6,8 @@ import helmet from 'helmet';
 import routes from './routes';
 import config from '@config/config';
 import AppError from '@utils/AppError';
-
+// import DataBase from './orm/data-source';
+import { dbCreateConnection } from './orm/dbCreateConection';
 const app: Express = express();
 
 app.use(cors());

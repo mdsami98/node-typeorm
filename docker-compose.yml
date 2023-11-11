@@ -14,3 +14,24 @@ services:
             - NODE_ENV=development
             - PORT=4000
         command: sh -c "yarn install && yarn start"
+
+    node-type-orm-db:
+        image: postgres:14
+        container_name: node-type-orm-db
+        restart: always
+        mem_limit: 1g
+        environment:
+            POSTGRES_PASSWORD: root
+            POSTGRES_DB: node_type_orm_db
+            POSTGRES_USER: root
+        volumes:
+            - /var/lib/postgresql/node-type-orm/data:/var/lib/postgresql/data
+
+    node-type-orm-db-adminer:
+        image: adminer
+        container_name: node-type-orm-db-adminer
+        restart: unless-stopped
+        links:
+            - node-type-orm-db:db
+        ports:
+            - 4099:8080
